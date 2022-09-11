@@ -18,7 +18,17 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan barcodes on event tickets.",
+        "NSLocationWhenInUseUsageDescription": "This app users location to detect your start point",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow to use during app open",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow to use during app open",
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
