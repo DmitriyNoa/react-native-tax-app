@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {setDestination, setOrigin} from "../slices/navSlice";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Location from 'expo-location';
+import NavFavorites from "../components/NavFavorites";
 
 export const HomeScreen = () => {
     const dispatch = useDispatch();
@@ -64,6 +65,7 @@ export const HomeScreen = () => {
                 </TouchableOpacity>
 
                 <NavOptions />
+                <NavFavorites />
             </View>
         </SafeAreaView>
     )
