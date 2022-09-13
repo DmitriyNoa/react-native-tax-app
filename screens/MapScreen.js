@@ -1,8 +1,8 @@
 import {Text, View, StyleSheet, KeyboardAvoidingView, Platform} from "react-native";
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps'
-import {selectDestination, selectOrigin} from "../slices/navSlice";
+import {selectDestination, selectOrigin, setTravelTimeInformation} from "../slices/navSlice";
 import tw from "tailwind-react-native-classnames";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import NavigateCard from "./cards/NavigateCard";
 import {G_KEY} from "@env"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,8 +13,9 @@ import {useEffect, useRef} from "react";
 const Stack = createNativeStackNavigator();
 
 const MapScreen = () => {
-    const origin = useSelector(selectOrigin)
-    const destination = useSelector(selectDestination)
+    const origin = useSelector(selectOrigin);
+    const destination = useSelector(selectDestination);
+    const dispatch = useDispatch();
     const mapRef = useRef(null);
 
     useEffect(() => {
@@ -23,7 +24,25 @@ const MapScreen = () => {
                 edgePadding: { top: 50, right: 50, bottom: 50, left: 50 }
             });
         }
-    }, [origin, destination])
+    }, [origin, destination]);
+
+    useEffect(() => {
+        const getTravelTime = async () => {
+            if(origin && destination) {
+                const url = `https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${destination.location.lat},${destination.location.lng}&origins=${origin.location.lat},${origin.location.lng}&key=${G_KEY}`
+
+                const result = await fetch(url);
+
+                const resultData = await result.json();
+
+                console.log(resultData.rows[0].elements[0]);
+
+                dispatch(setTravelTimeInformation(resultData.rows[0].elements[0]))
+            }
+        };
+
+        getTravelTime();
+    }, [origin, destination, G_KEY]);
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0} style={{flex: 1}}>
