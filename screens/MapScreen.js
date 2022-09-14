@@ -34,9 +34,7 @@ const MapScreen = () => {
                 const result = await fetch(url);
 
                 const resultData = await result.json();
-
-                console.log(resultData.rows[0].elements[0]);
-
+                
                 dispatch(setTravelTimeInformation(resultData.rows[0].elements[0]))
             }
         };
