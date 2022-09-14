@@ -5,6 +5,7 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {setAuth} from "../slices/loginSlice";
 import {CustomTextInput} from "../components/TextInput";
+import {useNavigation} from "@react-navigation/native";
 
 const storeAuth = async (value) => {
     try {
@@ -18,6 +19,7 @@ const FoodScreen = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     const handleChange = (text, input) => {
 
@@ -52,6 +54,13 @@ const FoodScreen = () => {
                                   onPress={handleLogin}
                                   disabled={!login && !password}>
                     <Text style={tw`text-white text-xl font-semibold text-center p-2`}>Login</Text>
+                </TouchableOpacity>
+            </View>
+            <View>
+                <TouchableOpacity
+                                  onPress={() => navigation.navigate("Register")}
+                                  >
+                    <Text style={tw`text-xl font-semibold text-center p-2`}>Register</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
